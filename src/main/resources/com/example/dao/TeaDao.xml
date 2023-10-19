@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.TeaDao">
+    <resultMap id="pageUser" type="com.example.pojo.Teacher">
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="is_admin" property="admin"/>
+        <collection property="courses" javaType="List" ofType="com.example.pojo.CourseData">
+            <result column="crname" property="crname"/>
+            <result column="time" property="time"/>
+            <result column="score" property="score"/>
+            <result column="courseId" property="id"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findPage" resultMap="pageUser">
+        select teacher.*,zdsc_course.crname,time,score,zdsc_course.id as courseId from teacher
+        left join zdsc_course on teacher.id = zdsc_course.teacher_id
+        <where>
+            <if test="id!=null">
+                teacher.id = #{id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

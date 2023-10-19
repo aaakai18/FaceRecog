@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.SignInDao">
+
+    <select id="selectByCourseId" resultType="com.example.pojo.SignIn">
+        select *,user_name as stuName from sign_in
+                 left join zd_users on stu_id = zd_users.id
+                 where course_id = #{course_id} and Date(attendance_time) = #{attendance_time}
+
+    </select>
+</mapper>

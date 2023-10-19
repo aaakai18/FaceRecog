@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CourseMapper">
+
+    <resultMap id="coursePage" type="com.example.pojo.CourseData">
+        <result column="id" property="id"/>
+        <result column="crname" property="crname"/>
+        <collection property="students" ofType="com.example.pojo.User" javaType="List">
+            <result column="stuId" property="id"/>
+            <result column="student" property="username"/>
+        </collection>
+    </resultMap>
+
+    <select id="findPage" resultType="com.example.pojo.CourseData">
+       select zdsc_course.*, teacher.name as teacher from zdsc_course
+            left join teacher on zdsc_course.teacher_id = teacher.id
+       <where>
+           <if test="name!= null and name!=''">
+               and zdsc_course.crname = #{name}
+           </if>
+       </where>
+    </select>
+
+
+    <select id="lookStudents" resultMap="coursePage">
+        select zdsc_course.* ,zd_users.user_name as student, zd_users.id as stuId from zdsc_course
+        left join stu_course on id = stu_course.course_id
+        left join zd_users on stu_id = zd_users.id
+        <where>
+            <if test="id != null">
+                and zdsc_course.id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>

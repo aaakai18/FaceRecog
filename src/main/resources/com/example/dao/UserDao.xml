@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserDao">
+
+    <resultMap id="pageUser" type="com.example.pojo.User">
+        <result column="user_name" property="username"/>
+        <result column="password" property="password"/>
+        <result column="is_admin" property="admin"/>
+        <collection property="courses" javaType="List" ofType="com.example.pojo.CourseData">
+            <result column="crname" property="crname"/>
+            <result column="score" property="score"/>
+            <result column="time" property="time"/>
+            <result column="teacher" property="teacher"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findPage" resultMap="pageUser">
+        select zd_users.*,zdsc_course.crname,time from zdsc.zd_users
+        left join stu_course on zd_users.id = stu_id
+        left join zdsc_course on stu_course.course_id = zdsc_course.id
+        <where>
+            <if test="id!=null">
+                zd_users.id = #{id}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectCourse" resultMap="pageUser">
+        select zd_users.* , zdsc_course.* ,teacher.name as teacher  from zd_users
+        left join stu_course on id = stu_course.stu_id
+        left join zdsc_course on stu_course.course_id = zdsc_course.id
+        left join teacher on zdsc_course.teacher_id = teacher.id
+        <where>
+            <if test="id!=null">
+                zd_users.id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>
