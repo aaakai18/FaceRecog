@@ -7,14 +7,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
 
-@SpringBootTest
+//解决导入websocket后，测试出现异常问题
+//因为WebSocket与Tomcat冲突，导致测试类报IllegalStateException
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
 class FaceReconApplicationTests {
 
 
     SignInService signInService = new SignInService();
     @Test
     void byCourseId(){
-        Date date = new Date();
-        System.out.println(date);
+        System.out.println("hello");
     }
 }

@@ -102,4 +102,11 @@ public class CourseController {
         return new Result(2000,null,"successfully!");
     }
 
+    //根据课程id统计签到情况
+    @GetMapping("/statistics/{courseId}")
+    public Result statisticsByCourseId(@PathVariable Integer courseId){
+
+        return new Result(200,null,"OK");
+    }
+
 }

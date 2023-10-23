@@ -39,7 +39,7 @@ public class FaceMatch {
             String param = GsonUtils.toJson(Pictures);
 
             // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
-            String accessToken = "[24.2c52ab581a7ee590c9640dfe1a981677.2592000.1696922605.282335-39096057]";
+            String accessToken = "[24.d3d0796a46800d836439993185de49d1.2592000.1700651147.282335-39096057]";
 
             String result = HttpUtil.post(url, accessToken, "application/json", param);
             System.out.println("result = "+result);

@@ -7,6 +7,7 @@ import com.example.utils.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -19,13 +20,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author websocket服务
  */
-@ServerEndpoint(value = "/imserver/{username}")
+@ServerEndpoint(value = "/loginserver/{username}")
 
 
 @Component
-public class WebSocketServer {
+public class WebSocketServerAll {
 
-    private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);
+    private static final Logger log = LoggerFactory.getLogger(WebSocketServerAll.class);
     /**
      * 记录当前在线连接数
      */
@@ -44,7 +45,7 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) {
         sessionMap.put(username, session);
-        log.info("有新用户加入，username={}, 当前在线人数为：{}", username, sessionMap.size());
+        log.info("总服务器有新用户加入，username={}, 当前在线人数为：{}", username, sessionMap.size());
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
         result.set("users", array);
@@ -63,7 +64,7 @@ public class WebSocketServer {
     @OnClose
     public void onClose(Session session, @PathParam("username") String username) {
         sessionMap.remove(username);
-        log.info("有一连接关闭，移除username={}的用户session, 当前在线人数为：{}", username, sessionMap.size());
+        log.info("总服务器有一连接关闭，移除username={}的用户session, 当前在线人数为：{}", username, sessionMap.size());
     }
     /**
      * 收到客户端消息后调用的方法
@@ -74,7 +75,7 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session, @PathParam("username") String username) {
-        log.info("服务端收到用户username={}的消息:{}", username, message);
+        log.info("总服务器服务端收到用户username={}的消息:{}", username, message);
         JSONObject obj = JSONUtil.parseObj(message);
         String toUsername = obj.getStr("to"); // to表示发送给哪个用户，比如 admin
         String text = obj.getStr("text"); // 发送的消息文本  hello
@@ -87,7 +88,7 @@ public class WebSocketServer {
             jsonObject.set("from", username);  // from 是 zhang
             jsonObject.set("text", text);  // text 同上面的text
             this.sendMessage(jsonObject.toString(), toSession);
-            log.info("发送给用户username={}，消息：{}", toUsername, jsonObject.toString());
+            log.info("总服务器：发送给用户username={}，消息：{}", toUsername, jsonObject.toString());
         } else if (toUsername.equals(this.groupName)) {
             //群聊发消息
             JSONObject jsonObject = new JSONObject();

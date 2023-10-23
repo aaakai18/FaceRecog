@@ -3,6 +3,7 @@ package com.example.controller;
 import cn.hutool.json.JSONObject;
 import com.example.Result;
 import com.example.faceconfig.FaceMatch;
+import com.example.pojo.ImgAndCourse;
 import com.example.pojo.StudentImg;
 import com.example.service.StuService;
 import com.example.utils.Picture;
@@ -18,8 +19,11 @@ public class FaceController {
     @Autowired
     StuService stuService;
     @PostMapping("/1")
-    public Result test(@RequestBody String data)
+    public Result test(@RequestBody ImgAndCourse imgAndCourse)
     {
+        String courseId = imgAndCourse.getCourseId();
+        String data = imgAndCourse.getImgData();
+        System.out.println("获取到的课程id为："+courseId);
         //解析data数据
         int commaIndex = data.indexOf(",");
         if (commaIndex != -1) {

@@ -9,6 +9,7 @@
         <result column="password" property="password"/>
         <result column="is_admin" property="admin"/>
         <collection property="courses" javaType="List" ofType="com.example.pojo.CourseData">
+            <result column="id" property="id"/>
             <result column="crname" property="crname"/>
             <result column="score" property="score"/>
             <result column="time" property="time"/>
