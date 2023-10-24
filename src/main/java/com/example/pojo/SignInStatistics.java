@@ -19,4 +19,9 @@ public class SignInStatistics {
     private Integer absenteeism;
     @TableField(value = "course_id")
     private Integer courseId;
+
+    @TableField(exist = false)
+    private String stuName;
+    @TableField(exist = false)
+    private String courseName;
 }

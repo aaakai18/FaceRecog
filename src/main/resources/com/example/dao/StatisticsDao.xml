@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.StatisticsDao">
+    <resultMap id="pageUser" type="com.example.pojo.SignInStatistics">
+        <result column="stu_id" property="stuId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="course_name" property="courseName"/>
+        <result column="stu_name" property="stuName"/>
+    </resultMap>
+    <select id="selectByCourseId" resultType="com.example.pojo.SignInStatistics">
+        select *,zdsc_course.crname as course_name,zd_users.user_name as stu_name from sign_in_statistics
+        left join zdsc_course on course_id = zdsc_course.id
+        left join zd_users on stu_id = zd_users.id
+        where course_id = #{course_id}
+    </select>
+
+</mapper>
